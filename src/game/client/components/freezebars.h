@@ -4,13 +4,15 @@
 
 class CFreezeBars : public CComponent
 {
-	void RenderFreezeBar(const int ClientId);
+	
+	void RenderFreezeBar(const int ClientId, const bool special);
 	void RenderFreezeBarPos(float x, const float y, const float width, const float height, float Progress, float Alpha = 1.0f);
 	bool IsPlayerInfoAvailable(int ClientId) const;
 
 public:
 	virtual int Sizeof() const override { return sizeof(*this); }
 	virtual void OnRender() override;
+	bool OnInput(const IInput::CEvent &Event) override;
 };
 
 #endif

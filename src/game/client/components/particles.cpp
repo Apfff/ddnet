@@ -206,6 +206,7 @@ bool CParticles::ParticleIsVisibleOnScreen(const vec2 &CurPos, float CurSize)
 
 void CParticles::RenderGroup(int Group)
 {
+
 	IGraphics::CTextureHandle *aParticles = GameClient()->m_ParticlesSkin.m_aSpriteParticles;
 	int FirstParticleOffset = SPRITE_PART_SLICE;
 	int ParticleQuadContainerIndex = m_ParticleQuadContainerIndex;
@@ -237,15 +238,27 @@ void CParticles::RenderGroup(int Group)
 				float a = m_aParticles[i].m_Life / m_aParticles[i].m_LifeSpan;
 				Alpha = mix(m_aParticles[i].m_StartAlpha, m_aParticles[i].m_EndAlpha, a);
 			}
-			LastColor.r = m_aParticles[i].m_Color.r;
-			LastColor.g = m_aParticles[i].m_Color.g;
-			LastColor.b = m_aParticles[i].m_Color.b;
+			//TEST COLOR FADE
+			float Red = m_aParticles[i].m_Color.r;
+			float Green = m_aParticles[i].m_Color.g;
+			float Blue = m_aParticles[i].m_Color.b;
+			if(m_aParticles[i].m_useColorFade){
+
+				float a = m_aParticles[i].m_Life / m_aParticles[i].m_LifeSpan;
+				Red = mix(m_aParticles[i].m_FadeStartColor.r, m_aParticles[i].m_FadeEndColor.r, a);
+				Green = mix(m_aParticles[i].m_FadeStartColor.g, m_aParticles[i].m_FadeEndColor.g, a);
+				Blue = mix(m_aParticles[i].m_FadeStartColor.b, m_aParticles[i].m_FadeEndColor.b, a);
+			}
+
+			LastColor.r = Red;
+			LastColor.g = Green;
+			LastColor.b = Blue;
 			LastColor.a = Alpha;
 
 			Graphics()->SetColor(
-				m_aParticles[i].m_Color.r,
-				m_aParticles[i].m_Color.g,
-				m_aParticles[i].m_Color.b,
+				Red,
+				Green,
+				Blue,
 				Alpha);
 
 			LastQuadOffset = m_aParticles[i].m_Spr;
@@ -262,11 +275,20 @@ void CParticles::RenderGroup(int Group)
 			{
 				Alpha = mix(m_aParticles[i].m_StartAlpha, m_aParticles[i].m_EndAlpha, a);
 			}
+			//TEST COLOR FADE
+			float Red = m_aParticles[i].m_Color.r;
+			float Green = m_aParticles[i].m_Color.g;
+			float Blue = m_aParticles[i].m_Color.b;
+			if(m_aParticles[i].m_useColorFade){
+				Red = mix(m_aParticles[i].m_FadeStartColor.r, m_aParticles[i].m_FadeEndColor.r, a);
+				Green = mix(m_aParticles[i].m_FadeStartColor.g, m_aParticles[i].m_FadeEndColor.g, a);
+				Blue = mix(m_aParticles[i].m_FadeStartColor.b, m_aParticles[i].m_FadeEndColor.b, a);
+			}
 
 			// the current position, respecting the size, is inside the viewport, render it, else ignore
 			if(ParticleIsVisibleOnScreen(p, Size))
 			{
-				if((size_t)CurParticleRenderCount == gs_GraphicsMaxParticlesRenderCount || LastColor.r != m_aParticles[i].m_Color.r || LastColor.g != m_aParticles[i].m_Color.g || LastColor.b != m_aParticles[i].m_Color.b || LastColor.a != Alpha || LastQuadOffset != QuadOffset)
+				if((size_t)CurParticleRenderCount == gs_GraphicsMaxParticlesRenderCount || LastColor.r != Red || LastColor.g != Green || LastColor.b != Blue || LastColor.a != Alpha || LastQuadOffset != QuadOffset)
 				{
 					Graphics()->TextureSet(aParticles[LastQuadOffset - FirstParticleOffset]);
 					Graphics()->RenderQuadContainerAsSpriteMultiple(ParticleQuadContainerIndex, LastQuadOffset - FirstParticleOffset, CurParticleRenderCount, s_aParticleRenderInfo);
@@ -274,14 +296,14 @@ void CParticles::RenderGroup(int Group)
 					LastQuadOffset = QuadOffset;
 
 					Graphics()->SetColor(
-						m_aParticles[i].m_Color.r,
-						m_aParticles[i].m_Color.g,
-						m_aParticles[i].m_Color.b,
+						Red,
+						Green,
+						Blue,
 						Alpha);
 
-					LastColor.r = m_aParticles[i].m_Color.r;
-					LastColor.g = m_aParticles[i].m_Color.g;
-					LastColor.b = m_aParticles[i].m_Color.b;
+					LastColor.r = Red;
+					LastColor.g = Green;
+					LastColor.b = Blue;
 					LastColor.a = Alpha;
 				}
 
@@ -312,9 +334,21 @@ void CParticles::RenderGroup(int Group)
 			vec2 p = m_aParticles[i].m_Pos;
 			float Size = mix(m_aParticles[i].m_StartSize, m_aParticles[i].m_EndSize, a);
 			float Alpha = m_aParticles[i].m_Color.a;
+		
 			if(m_aParticles[i].m_UseAlphaFading)
 			{
 				Alpha = mix(m_aParticles[i].m_StartAlpha, m_aParticles[i].m_EndAlpha, a);
+			}
+			//TEST COLOR FADE
+			float Red = m_aParticles[i].m_Color.r;
+			float Green = m_aParticles[i].m_Color.g;
+			float Blue = m_aParticles[i].m_Color.b;
+			if(m_aParticles[i].m_useColorFade){
+
+				float a = m_aParticles[i].m_Life / m_aParticles[i].m_LifeSpan;
+				Red = mix(m_aParticles[i].m_FadeStartColor.r, m_aParticles[i].m_FadeEndColor.r, a);
+				Green = mix(m_aParticles[i].m_FadeStartColor.g, m_aParticles[i].m_FadeEndColor.g, a);
+				Blue = mix(m_aParticles[i].m_FadeStartColor.b, m_aParticles[i].m_FadeEndColor.b, a);
 			}
 
 			// the current position, respecting the size, is inside the viewport, render it, else ignore
@@ -326,9 +360,9 @@ void CParticles::RenderGroup(int Group)
 				Graphics()->QuadsSetRotation(m_aParticles[i].m_Rot);
 
 				Graphics()->SetColor(
-					m_aParticles[i].m_Color.r,
-					m_aParticles[i].m_Color.g,
-					m_aParticles[i].m_Color.b,
+					Red,
+					Green,
+					Blue,
 					Alpha);
 
 				IGraphics::CQuadItem QuadItem(p.x, p.y, Size, Size);

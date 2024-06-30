@@ -11,7 +11,7 @@
 #include <game/mapitems.h>
 
 #include "camera.h"
-#include "controls.h"
+#include "controls.h"y
 
 #include <limits>
 

@@ -24,7 +24,10 @@ struct CParticle
 		m_Gravity = 0;
 		m_Friction = 0;
 		m_FlowAffected = 1.0f;
+		m_useColorFade = false;
 		m_Color = ColorRGBA(1, 1, 1, 1);
+		m_FadeStartColor = m_Color;
+		m_FadeEndColor = ColorRGBA(1, 1, 1, 1);
 		m_Collides = true;
 	}
 
@@ -50,7 +53,10 @@ struct CParticle
 	float m_Gravity;
 	float m_Friction;
 
+	bool m_useColorFade;
 	ColorRGBA m_Color;
+	ColorRGBA m_FadeStartColor;
+	ColorRGBA m_FadeEndColor;
 
 	bool m_Collides;
 

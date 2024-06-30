@@ -134,7 +134,8 @@ void CItems::RenderProjectile(const CProjectileData *pCurrent, int ItemId)
 	{
 		Graphics()->TextureSet(GameClient()->m_GameSkin.m_aSpriteWeaponProjectiles[CurWeapon]);
 		Graphics()->SetColor(1.f, 1.f, 1.f, Alpha);
-		Graphics()->RenderQuadContainerAsSprite(m_ItemsQuadContainerIndex, m_aProjectileOffset[CurWeapon], Pos.x, Pos.y);
+		Graphics()->RenderQuadContainerAsSprite(m_ItemsQuadContainerIndex, m_aProjectileOffset[CurWeapon], 
+			Pos.x, Pos.y, 1.0f, 1.0f);
 	}
 }
 
@@ -377,6 +378,7 @@ void CItems::OnRender()
 	auto &aSwitchers = GameClient()->Switchers();
 	if(UsePredicted)
 	{
+		
 		for(auto *pProj = (CProjectile *)GameClient()->m_PredictedWorld.FindFirst(CGameWorld::ENTTYPE_PROJECTILE); pProj; pProj = (CProjectile *)pProj->NextEntity())
 		{
 			if(!IsSuper && pProj->m_Number > 0 && pProj->m_Number < (int)aSwitchers.size() && !aSwitchers[pProj->m_Number].m_aStatus[SwitcherTeam] && (pProj->m_Explosive ? BlinkingProjEx : BlinkingProj))

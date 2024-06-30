@@ -20,6 +20,7 @@ CEffects::CEffects()
 	m_Add5hz = false;
 	m_Add50hz = false;
 	m_Add100hz = false;
+	m_Add200hz = false;
 }
 
 void CEffects::AirJump(vec2 Pos, float Alpha)
@@ -150,18 +151,36 @@ void CEffects::SkidTrail(vec2 Pos, vec2 Vel, float Alpha)
 
 void CEffects::BulletTrail(vec2 Pos, float Alpha, float TimePassed)
 {
-	if(!m_Add100hz && TimePassed < 0.001f)
+	if(!m_Add200hz && TimePassed < 0.001f)
 		return;
 
 	CParticle p;
 	p.SetDefault();
 	p.m_Spr = SPRITE_PART_BALL;
 	p.m_Pos = Pos;
-	p.m_LifeSpan = random_float(0.25f, 0.5f);
-	p.m_StartSize = 8.0f;
+	p.m_LifeSpan = 0.1f;
+	p.m_StartSize = 24.0f;
 	p.m_EndSize = 0;
-	p.m_Friction = 0.7f;
-	p.m_Color.a *= Alpha;
+	p.m_Friction = 0.0f;
+	p.m_useColorFade = true;
+	p.m_Color = ColorRGBA(
+		247.0f/255.0f,
+		79.0f/255.0f,
+		79.0f/255.0f,
+		1.0f
+	);
+	p.m_FadeStartColor = ColorRGBA(
+		247.0f/255.0f,
+		79.0f/255.0f,
+		79.0f/255.0f,
+		1.0f
+	);
+	p.m_FadeEndColor = ColorRGBA(
+		247.0f/255.0f,
+		194.0f/255.0f,
+		79.0f/255.0f,
+		1.0f
+	);
 	p.m_StartAlpha = Alpha;
 	m_pClient->m_Particles.Add(CParticles::GROUP_PROJECTILE_TRAIL, &p, TimePassed);
 }
@@ -285,10 +304,10 @@ void CEffects::FinishConfetti(vec2 Pos, float Alpha)
 	}
 }
 
-void CEffects::Explosion(vec2 Pos, float Alpha)
+void CEffects::Explosion(vec2 Pos, float Alpha, int Amount)
 {
 	// add to flow
-	for(int y = -8; y <= 8; y++)
+	for(int y = -(Amount); y <= Amount; y++)
 		for(int x = -8; x <= 8; x++)
 		{
 			if(x == 0 && y == 0)
@@ -372,6 +391,7 @@ void CEffects::HammerHit(vec2 Pos, float Alpha)
 
 void CEffects::OnRender()
 {
+	static int64_t s_lastUpdate200hz = 0;
 	static int64_t s_LastUpdate100hz = 0;
 	static int64_t s_LastUpdate50hz = 0;
 	static int64_t s_LastUpdate5hz = 0;
@@ -379,6 +399,14 @@ void CEffects::OnRender()
 	float Speed = 1.0f;
 	if(Client()->State() == IClient::STATE_DEMOPLAYBACK)
 		Speed = DemoPlayer()->BaseInfo()->m_Speed;
+
+	if(time() - s_LastUpdate100hz > time_freq() / (200 * Speed))
+	{
+		m_Add200hz = true;
+		s_LastUpdate100hz = time();
+	}
+	else
+		m_Add200hz = false;
 
 	if(time() - s_LastUpdate100hz > time_freq() / (100 * Speed))
 	{

@@ -1121,15 +1121,22 @@ void CGameClient::ProcessEvents()
 		// We don't have enough info about us, others, to know a correct alpha value.
 		float Alpha = 1.0f;
 
-		if(Item.m_Type == NETEVENTTYPE_DAMAGEIND)
-		{
-			CNetEvent_DamageInd *pEvent = (CNetEvent_DamageInd *)pData;
-			m_Effects.DamageIndicator(vec2(pEvent->m_X, pEvent->m_Y), direction(pEvent->m_Angle / 256.0f), Alpha);
+		if(Item.m_Type == NETEVENTTYPE_DAMAGEIND){
+			if(m_GunDmgIndicatorCounter == 0){
+				//CNetEvent_DamageInd *pEvent = (CNetEvent_DamageInd *)pData;
+				//m_Effects.DamageIndicator(vec2(pEvent->m_X, pEvent->m_Y), direction(pEvent->m_Angle / 256.0f), Alpha);
+				CNetEvent_Explosion *pEvent = (CNetEvent_Explosion *)pData;
+				m_Effects.Explosion(vec2(pEvent->m_X, pEvent->m_Y), Alpha);
+				dbg_msg("gameclient", "Explosion (gun)!");
+			}
+			m_GunDmgIndicatorCounter = (m_GunDmgIndicatorCounter + 1) % 10;
 		}
+		
 		else if(Item.m_Type == NETEVENTTYPE_EXPLOSION)
 		{
 			CNetEvent_Explosion *pEvent = (CNetEvent_Explosion *)pData;
 			m_Effects.Explosion(vec2(pEvent->m_X, pEvent->m_Y), Alpha);
+			dbg_msg("gameclient", "Explosion (rocket)!");
 		}
 		else if(Item.m_Type == NETEVENTTYPE_HAMMERHIT)
 		{
@@ -1361,7 +1368,6 @@ void CGameClient::OnNewSnapshot()
 	InvalidateSnapshot();
 
 	m_NewTick = true;
-
 	ProcessEvents();
 
 #ifdef CONF_DEBUG

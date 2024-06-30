@@ -2,16 +2,16 @@
 
 #include "freezebars.h"
 
-void CFreezeBars::RenderFreezeBar(const int ClientId)
+void CFreezeBars::RenderFreezeBar(const int ClientId, const bool special)
 {
-	const float FreezeBarWidth = 64.0f;
-	const float FreezeBarHalfWidth = 32.0f;
+	const float FreezeBarWidth = 1024.0f;
+	const float FreezeBarHalfWidth = 512.0f;
 	const float FreezeBarHight = 16.0f;
 
 	// pCharacter contains the predicted character for local players or the last snap for players who are spectated
 	CCharacterCore *pCharacter = &m_pClient->m_aClients[ClientId].m_Predicted;
 
-	if(pCharacter->m_FreezeEnd <= 0 || pCharacter->m_FreezeStart == 0 || pCharacter->m_FreezeEnd <= pCharacter->m_FreezeStart || !m_pClient->m_Snap.m_aCharacters[ClientId].m_HasExtendedDisplayInfo || (pCharacter->m_IsInFreeze && g_Config.m_ClFreezeBarsAlphaInsideFreeze == 0))
+	if(special == false && (pCharacter->m_FreezeEnd <= 0 || pCharacter->m_FreezeStart == 0 || pCharacter->m_FreezeEnd <= pCharacter->m_FreezeStart || !m_pClient->m_Snap.m_aCharacters[ClientId].m_HasExtendedDisplayInfo || (pCharacter->m_IsInFreeze && g_Config.m_ClFreezeBarsAlphaInsideFreeze == 0)))
 	{
 		return;
 	}
@@ -233,10 +233,21 @@ void CFreezeBars::OnRender()
 			continue;
 		}
 
-		RenderFreezeBar(ClientId);
+		RenderFreezeBar(ClientId, false);
 	}
 	if(LocalClientId != -1 && m_pClient->m_Snap.m_aCharacters[LocalClientId].m_Active && IsPlayerInfoAvailable(LocalClientId))
 	{
-		RenderFreezeBar(LocalClientId);
+		RenderFreezeBar(LocalClientId, false);
 	}
+}
+
+bool CFreezeBars::OnInput(const IInput::CEvent &Event)
+{
+	if(Event.m_Flags & IInput::FLAG_PRESS && Event.m_Key == KEY_B){
+		int LocalClientId = m_pClient->m_Snap.m_LocalClientId;
+		
+		RenderFreezeBar(LocalClientId, true);
+		return true;
+	}
+	return false;
 }

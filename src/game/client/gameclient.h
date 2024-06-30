@@ -98,6 +98,7 @@ public:
 
 	bool m_NoWeakHookAndBounce;
 	bool m_NoSkinChangeForFrozen;
+
 };
 
 class CSnapEntities
@@ -224,6 +225,9 @@ private:
 	bool m_GameOver = false;
 	bool m_GamePaused = false;
 	int m_PrevLocalId = -1;
+
+	//shooting damage indicator workaround
+	int m_GunDmgIndicatorCounter = 0;
 
 public:
 	IKernel *Kernel() { return IInterface::Kernel(); }
