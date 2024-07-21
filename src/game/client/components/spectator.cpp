@@ -104,6 +104,15 @@ void CSpectator::ConSpectateNext(IConsole::IResult *pResult, void *pUserData)
 	pSelf->SpectateNext(false);
 }
 
+void CSpectator::ConSpectateFreeView(IConsole::IResult *pResult, void *pUserData)
+{
+	CSpectator *pSelf = (CSpectator *)pUserData;
+	if(!pSelf->CanChangeSpectator())
+		return;
+
+	pSelf->Spectate(-1);
+}
+
 void CSpectator::ConSpectatePrevious(IConsole::IResult *pResult, void *pUserData)
 {
 	CSpectator *pSelf = (CSpectator *)pUserData;
@@ -111,6 +120,15 @@ void CSpectator::ConSpectatePrevious(IConsole::IResult *pResult, void *pUserData
 		return;
 
 	pSelf->SpectateNext(true);
+}
+
+void CSpectator::ConSpectateRecent(IConsole::IResult *pResult, void *pUserData)
+{
+	CSpectator *pSelf = (CSpectator *)pUserData;
+	if(!pSelf->CanChangeSpectator())
+		return;
+
+	pSelf->Spectate(pSelf->m_LastSelectedSpectatorId);
 }
 
 void CSpectator::ConSpectateClosest(IConsole::IResult *pResult, void *pUserData)
@@ -174,6 +192,8 @@ void CSpectator::OnConsoleInit()
 	Console()->Register("spectate_next", "", CFGFLAG_CLIENT, ConSpectateNext, this, "Spectate the next player");
 	Console()->Register("spectate_previous", "", CFGFLAG_CLIENT, ConSpectatePrevious, this, "Spectate the previous player");
 	Console()->Register("spectate_closest", "", CFGFLAG_CLIENT, ConSpectateClosest, this, "Spectate the closest player");
+	Console()->Register("spectate_free_view", "", CFGFLAG_CLIENT, ConSpectateFreeView, this, "Spectate free view");
+	Console()->Register("spectate_recent", "", CFGFLAG_CLIENT, ConSpectateRecent, this, "Spectate recently spectated player");
 	Console()->Register("spectate_multiview", "i[id]", CFGFLAG_CLIENT, ConMultiView, this, "Add/remove Client-IDs to spectate them exclusively (-1 to reset)");
 }
 
@@ -532,7 +552,9 @@ void CSpectator::OnReset()
 }
 
 void CSpectator::Spectate(int SpectatorId)
-{
+{	
+	dbg_msg("spectator", "SpectatorID: %d LastSpectatorID: %d", SpectatorId, m_SelectedSpectatorId);
+
 	if(Client()->State() == IClient::STATE_DEMOPLAYBACK)
 	{
 		m_pClient->m_DemoSpecId = clamp(SpectatorId, (int)SPEC_FOLLOW, MAX_CLIENTS - 1);
@@ -547,6 +569,10 @@ void CSpectator::Spectate(int SpectatorId)
 
 	CNetMsg_Cl_SetSpectatorMode Msg;
 	Msg.m_SpectatorId = SpectatorId;
+	if(SpectatorId >= 0)
+	{
+		m_LastSelectedSpectatorId = SpectatorId;
+	} 
 	Client()->SendPackMsgActive(&Msg, MSGFLAG_VITAL);
 }
 

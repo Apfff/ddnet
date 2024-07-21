@@ -304,10 +304,10 @@ void CEffects::FinishConfetti(vec2 Pos, float Alpha)
 	}
 }
 
-void CEffects::Explosion(vec2 Pos, float Alpha, int Amount)
+void CEffects::Explosion(vec2 Pos, float Alpha)
 {
 	// add to flow
-	for(int y = -(Amount); y <= Amount; y++)
+	for(int y = -8; y <= 8; y++)
 		for(int x = -8; x <= 8; x++)
 		{
 			if(x == 0 && y == 0)

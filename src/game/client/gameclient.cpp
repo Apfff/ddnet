@@ -1127,7 +1127,7 @@ void CGameClient::ProcessEvents()
 				//m_Effects.DamageIndicator(vec2(pEvent->m_X, pEvent->m_Y), direction(pEvent->m_Angle / 256.0f), Alpha);
 				CNetEvent_Explosion *pEvent = (CNetEvent_Explosion *)pData;
 				m_Effects.Explosion(vec2(pEvent->m_X, pEvent->m_Y), Alpha);
-				dbg_msg("gameclient", "Explosion (gun)!");
+				dbg_msg("gameclient", "Explosion (gun)! TEST");
 			}
 			m_GunDmgIndicatorCounter = (m_GunDmgIndicatorCounter + 1) % 10;
 		}

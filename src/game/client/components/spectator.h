@@ -19,7 +19,8 @@ class CSpectator : public CComponent
 	bool m_WasActive;
 	bool m_Clicked;
 
-	int m_SelectedSpectatorId;
+	int m_SelectedSpectatorId = -1;
+	int m_LastSelectedSpectatorId;
 	vec2 m_SelectorMouse;
 
 	float m_OldMouseX;
@@ -35,6 +36,8 @@ class CSpectator : public CComponent
 	static void ConSpectateNext(IConsole::IResult *pResult, void *pUserData);
 	static void ConSpectatePrevious(IConsole::IResult *pResult, void *pUserData);
 	static void ConSpectateClosest(IConsole::IResult *pResult, void *pUserData);
+	static void ConSpectateFreeView(IConsole::IResult *pResult, void *pUserData);
+	static void ConSpectateRecent(IConsole::IResult *pResult, void *pUserData);
 	static void ConMultiView(IConsole::IResult *pResult, void *pUserData);
 
 public:
