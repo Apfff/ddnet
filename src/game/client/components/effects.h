@@ -26,7 +26,7 @@ public:
 	void Explosion(vec2 Pos, float Alpha = 1.0f);
 	void HammerHit(vec2 Pos, float Alpha = 1.0f);
 	void AirJump(vec2 Pos, float Alpha = 1.0f);
-	void DamageIndicator(vec2 Pos, vec2 Dir, float Alpha = 1.0f);
+	void DamageIndicator(vec2 Pos, vec2 Dir, float Alpha = 1.0f, float Life = 0.75f);
 	void ResetDamageIndicator();
 	void PlayerSpawn(vec2 Pos, float Alpha = 1.0f);
 	void PlayerDeath(vec2 Pos, int ClientId, float Alpha = 1.0f);

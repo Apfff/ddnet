@@ -49,9 +49,9 @@ void CEffects::AirJump(vec2 Pos, float Alpha)
 		m_pClient->m_Sounds.PlayAt(CSounds::CHN_WORLD, SOUND_PLAYER_AIRJUMP, 1.0f, Pos);
 }
 
-void CEffects::DamageIndicator(vec2 Pos, vec2 Dir, float Alpha)
+void CEffects::DamageIndicator(vec2 Pos, vec2 Dir, float Alpha, float Life)
 {
-	m_pClient->m_DamageInd.Create(Pos, Dir, Alpha);
+	m_pClient->m_DamageInd.Create(Pos, Dir, Alpha, Life);
 }
 
 void CEffects::ResetDamageIndicator()

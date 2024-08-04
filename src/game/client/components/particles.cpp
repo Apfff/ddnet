@@ -97,7 +97,7 @@ void CParticles::Update(float TimePassed)
 		while(i != -1)
 		{
 			int Next = m_aParticles[i].m_NextPart;
-			//m_aParticles[i].vel += flow_get(m_aParticles[i].pos)*time_passed * m_aParticles[i].flow_affected;
+			// m_aParticles[i].vel += flow_get(m_aParticles[i].pos)*time_passed * m_aParticles[i].flow_affected;
 			m_aParticles[i].m_Vel.y += m_aParticles[i].m_Gravity * TimePassed;
 
 			for(int f = 0; f < FrictionCount; f++) // apply friction
@@ -206,7 +206,6 @@ bool CParticles::ParticleIsVisibleOnScreen(const vec2 &CurPos, float CurSize)
 
 void CParticles::RenderGroup(int Group)
 {
-
 	IGraphics::CTextureHandle *aParticles = GameClient()->m_ParticlesSkin.m_aSpriteParticles;
 	int FirstParticleOffset = SPRITE_PART_SLICE;
 	int ParticleQuadContainerIndex = m_ParticleQuadContainerIndex;
@@ -238,12 +237,12 @@ void CParticles::RenderGroup(int Group)
 				float a = m_aParticles[i].m_Life / m_aParticles[i].m_LifeSpan;
 				Alpha = mix(m_aParticles[i].m_StartAlpha, m_aParticles[i].m_EndAlpha, a);
 			}
-			//TEST COLOR FADE
+			// TEST COLOR FADE
 			float Red = m_aParticles[i].m_Color.r;
 			float Green = m_aParticles[i].m_Color.g;
 			float Blue = m_aParticles[i].m_Color.b;
-			if(m_aParticles[i].m_useColorFade){
-
+			if(m_aParticles[i].m_useColorFade)
+			{
 				float a = m_aParticles[i].m_Life / m_aParticles[i].m_LifeSpan;
 				Red = mix(m_aParticles[i].m_FadeStartColor.r, m_aParticles[i].m_FadeEndColor.r, a);
 				Green = mix(m_aParticles[i].m_FadeStartColor.g, m_aParticles[i].m_FadeEndColor.g, a);
@@ -275,11 +274,12 @@ void CParticles::RenderGroup(int Group)
 			{
 				Alpha = mix(m_aParticles[i].m_StartAlpha, m_aParticles[i].m_EndAlpha, a);
 			}
-			//TEST COLOR FADE
+			// TEST COLOR FADE
 			float Red = m_aParticles[i].m_Color.r;
 			float Green = m_aParticles[i].m_Color.g;
 			float Blue = m_aParticles[i].m_Color.b;
-			if(m_aParticles[i].m_useColorFade){
+			if(m_aParticles[i].m_useColorFade)
+			{
 				Red = mix(m_aParticles[i].m_FadeStartColor.r, m_aParticles[i].m_FadeEndColor.r, a);
 				Green = mix(m_aParticles[i].m_FadeStartColor.g, m_aParticles[i].m_FadeEndColor.g, a);
 				Blue = mix(m_aParticles[i].m_FadeStartColor.b, m_aParticles[i].m_FadeEndColor.b, a);
@@ -334,17 +334,17 @@ void CParticles::RenderGroup(int Group)
 			vec2 p = m_aParticles[i].m_Pos;
 			float Size = mix(m_aParticles[i].m_StartSize, m_aParticles[i].m_EndSize, a);
 			float Alpha = m_aParticles[i].m_Color.a;
-		
+
 			if(m_aParticles[i].m_UseAlphaFading)
 			{
 				Alpha = mix(m_aParticles[i].m_StartAlpha, m_aParticles[i].m_EndAlpha, a);
 			}
-			//TEST COLOR FADE
+			// TEST COLOR FADE
 			float Red = m_aParticles[i].m_Color.r;
 			float Green = m_aParticles[i].m_Color.g;
 			float Blue = m_aParticles[i].m_Color.b;
-			if(m_aParticles[i].m_useColorFade){
-
+			if(m_aParticles[i].m_useColorFade)
+			{
 				float a = m_aParticles[i].m_Life / m_aParticles[i].m_LifeSpan;
 				Red = mix(m_aParticles[i].m_FadeStartColor.r, m_aParticles[i].m_FadeEndColor.r, a);
 				Green = mix(m_aParticles[i].m_FadeStartColor.g, m_aParticles[i].m_FadeEndColor.g, a);

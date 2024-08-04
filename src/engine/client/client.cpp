@@ -3477,7 +3477,7 @@ void CClient::Con_SaveReplay(IConsole::IResult *pResult, void *pUserData)
 {
 	CClient *pSelf = (CClient *)pUserData;
 	if(pResult->NumArguments())
-	{
+	{	
 		int Length = pResult->GetInteger(0);
 		if(Length <= 0)
 			pSelf->m_pConsole->Print(IConsole::OUTPUT_LEVEL_STANDARD, "replay", "ERROR: length must be greater than 0 second.");

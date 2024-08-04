@@ -17,6 +17,8 @@ class CDamageInd : public CComponent
 		float m_StartAngle;
 		ColorRGBA m_Color;
 		float m_StartAlpha;
+		float m_friction;
+		float m_Life;
 	};
 
 	enum
@@ -36,7 +38,7 @@ public:
 	CDamageInd();
 	virtual int Sizeof() const override { return sizeof(*this); }
 
-	void Create(vec2 Pos, vec2 Dir, float Alpha);
+	void Create(vec2 Pos, vec2 Dir, float Alpha, float Life);
 	void Reset();
 	virtual void OnRender() override;
 	virtual void OnInit() override;

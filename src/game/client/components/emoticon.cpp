@@ -188,16 +188,16 @@ void CEmoticon::EyeEmote(int Emote)
 		str_format(aBuf, sizeof(aBuf), "/emote normal %d", g_Config.m_ClEyeDuration);
 		break;
 	case EMOTE_PAIN:
-		str_format(aBuf, sizeof(aBuf), "/emote pain %d", g_Config.m_ClEyeDuration);
+		str_format(aBuf, sizeof(aBuf), "/practice");
 		break;
 	case EMOTE_HAPPY:
-		str_format(aBuf, sizeof(aBuf), "/emote happy %d", g_Config.m_ClEyeDuration);
+		str_format(aBuf, sizeof(aBuf), "/r");
 		break;
 	case EMOTE_SURPRISE:
 		str_format(aBuf, sizeof(aBuf), "/emote surprise %d", g_Config.m_ClEyeDuration);
 		break;
 	case EMOTE_ANGRY:
-		str_format(aBuf, sizeof(aBuf), "/emote angry %d", g_Config.m_ClEyeDuration);
+		//str_format(aBuf, sizeof(aBuf), "/emote angry %d", g_Config.m_ClEyeDuration);
 		break;
 	case EMOTE_BLINK:
 		str_format(aBuf, sizeof(aBuf), "/emote blink %d", g_Config.m_ClEyeDuration);

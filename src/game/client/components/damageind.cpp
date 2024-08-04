@@ -33,7 +33,7 @@ void CDamageInd::DestroyI(CDamageInd::CItem *pItem)
 	*pItem = m_aItems[m_NumItems];
 }
 
-void CDamageInd::Create(vec2 Pos, vec2 Dir, float Alpha)
+void CDamageInd::Create(vec2 Pos, vec2 Dir, float Alpha, float Life)
 {
 	CItem *pItem = CreateI();
 	if(pItem)
@@ -44,6 +44,7 @@ void CDamageInd::Create(vec2 Pos, vec2 Dir, float Alpha)
 		pItem->m_StartAngle = -random_angle();
 		pItem->m_Color = ColorRGBA(1.0f, 1.0f, 1.0f, Alpha);
 		pItem->m_StartAlpha = Alpha;
+		pItem->m_Life = Life;
 	}
 }
 
@@ -75,7 +76,9 @@ void CDamageInd::OnRender()
 			DestroyI(&m_aItems[i]);
 		else
 		{
-			vec2 Pos = mix(m_aItems[i].m_Pos + m_aItems[i].m_Dir * 75.0f, m_aItems[i].m_Pos, clamp((Life - 0.60f) / 0.15f, 0.0f, 1.0f));
+			vec2 Pos = mix(m_aItems[i].m_Pos + m_aItems[i].m_Dir * 75.0f, 
+				m_aItems[i].m_Pos, 
+				clamp((Life - 0.60f) / 0.15f, 0.0f, 1.0f));
 			ColorRGBA Color = m_aItems[i].m_Color;
 
 			float LifeAlpha = Life / 0.1f;

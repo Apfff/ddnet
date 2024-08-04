@@ -482,7 +482,7 @@ public:
 	unsigned GetCurrentMapCrc() const override;
 
 	void RaceRecord_Start(const char *pFilename) override;
-	void RaceRecord_Stop() override;
+	void RaceRecord_Stop() override; 
 	bool RaceRecord_IsRecording() override;
 
 	void DemoSliceBegin() override;

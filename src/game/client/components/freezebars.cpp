@@ -4,8 +4,8 @@
 
 void CFreezeBars::RenderFreezeBar(const int ClientId, const bool special)
 {
-	const float FreezeBarWidth = 1024.0f;
-	const float FreezeBarHalfWidth = 512.0f;
+	const float FreezeBarWidth = 64.0f;
+	const float FreezeBarHalfWidth = 32.0f;
 	const float FreezeBarHight = 16.0f;
 
 	// pCharacter contains the predicted character for local players or the last snap for players who are spectated

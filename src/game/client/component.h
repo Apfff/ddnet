@@ -137,6 +137,7 @@ public:
 	 * Get the client interface.
 	 */
 	class IClient *Client() const;
+	class IClient *LogicClient() const;
 
 	/**
 	 * This method is called when the client changes state, e.g from offline to online.

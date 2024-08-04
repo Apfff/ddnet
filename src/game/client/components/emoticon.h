@@ -8,6 +8,7 @@
 
 class CEmoticon : public CComponent
 {
+
 	bool m_WasActive;
 	bool m_Active;
 

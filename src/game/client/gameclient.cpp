@@ -1120,14 +1120,19 @@ void CGameClient::ProcessEvents()
 
 		// We don't have enough info about us, others, to know a correct alpha value.
 		float Alpha = 1.0f;
+		float Life = 0.75f;
 
 		if(Item.m_Type == NETEVENTTYPE_DAMAGEIND){
-			if(m_GunDmgIndicatorCounter == 0){
-				//CNetEvent_DamageInd *pEvent = (CNetEvent_DamageInd *)pData;
-				//m_Effects.DamageIndicator(vec2(pEvent->m_X, pEvent->m_Y), direction(pEvent->m_Angle / 256.0f), Alpha);
-				CNetEvent_Explosion *pEvent = (CNetEvent_Explosion *)pData;
-				m_Effects.Explosion(vec2(pEvent->m_X, pEvent->m_Y), Alpha);
-				dbg_msg("gameclient", "Explosion (gun)! TEST");
+			if(m_GunDmgIndicatorCounter == 5){
+				CNetEvent_DamageInd *pEvent = (CNetEvent_DamageInd *)pData;
+				vec2 pos = vec2(pEvent->m_X, pEvent->m_Y);
+				vec2 dir = direction(pEvent->m_Angle / 256.0f);
+				m_Effects.DamageIndicator(pos, dir, Alpha, Life);
+				m_Effects.DamageIndicator(pos, dir, Alpha, Life);
+				m_Effects.DamageIndicator(pos, dir*0.5f, Alpha, Life);
+				m_Effects.DamageIndicator(pos, dir*0.2f, Alpha, Life);
+				m_Effects.DamageIndicator(pos, vec2(0, 0), Alpha, 1.0f);
+				dbg_msg("gameclient", "(gun) shot: pEvent angle: %f",pEvent->m_Angle);
 			}
 			m_GunDmgIndicatorCounter = (m_GunDmgIndicatorCounter + 1) % 10;
 		}
